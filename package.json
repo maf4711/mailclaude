@@ -1,0 +1,21 @@
+{
+  "name": "mailclaude",
+  "version": "1.0.0",
+  "description": "MCP server for searching Apple Mail on macOS",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mailclaude": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && rm -rf dist/scripts && cp -r src/scripts dist/scripts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}
