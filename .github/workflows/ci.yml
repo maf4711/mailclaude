@@ -1,0 +1,28 @@
+# Fabrik Welle-1 hygiene skeleton (zero-cost template wave)
+name: ci
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+        continue-on-error: true
+      - name: Install
+        run: |
+          if [ -f package-lock.json ]; then npm ci;           elif [ -f pnpm-lock.yaml ]; then corepack enable && pnpm i --frozen-lockfile;           elif [ -f package.json ]; then npm install;           else echo "no package.json — skip install"; fi
+      - name: Test or verify
+        run: |
+          if [ -f package.json ]; then
+            npm test --if-present
+            npm run verify --if-present
+            npm run lint --if-present
+          else
+            echo "no npm scripts"
+          fi
