@@ -4,11 +4,13 @@ import path from "node:path";
 const BASE_DIR = "/tmp/mailclaude";
 
 function sanitizeFilename(name: string, maxLen = 50): string {
-  return name
+  const sanitized = name
     .replace(/[^a-zA-Z0-9_\-. äöüÄÖÜß]/g, "_")
     .replace(/_+/g, "_")
     .substring(0, maxLen)
     .replace(/_$/, "");
+  // Empty names and dot-only names must never resolve to an output directory.
+  return sanitized === "" || /^\.+$/.test(sanitized) ? "untitled" : sanitized;
 }
 
 function ensureDir(dir: string): void {
